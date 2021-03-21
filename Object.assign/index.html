@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+       function completeAssign(target, ...sources) {
+            sources.forEach(source => {
+                let descriptors = Object.keys(source).reduce((descriptors, key) => {
+                    descriptors[key] = Object.getOwnPropertyDescriptor(source, key);
+                    return descriptors;
+                }, {});
+
+                Object.getOwnPropertySymbols(source).forEach(sym => {
+                    let descriptor = Object.getOwnPropertyDescriptor(source, sym);
+                    if (descriptor.enumerable) {
+                        descriptors[sym] = descriptor;
+                    }
+                });
+                Object.defineProperties(target, descriptors);
+            });
+            return target;
+        }
+    </script>
+</body>
+</html>

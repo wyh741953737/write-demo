@@ -94,6 +94,7 @@
         })
     }
 
+
     Promise.resolveDelay = function(value, time) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {

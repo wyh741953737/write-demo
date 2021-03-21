@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const obj = {
+            name:'Eileen',
+            age:  12,
+            sayName: () => {console.log('---')},
+            colors: ['red', 'green']
+        }
+        function jsonStringify(obj) { 
+            if (typeof obj !== 'object') { // 如果不是对象，是函数，直接return 如果其他类型，调用String方法
+                if (typeof obj === 'function') {
+                    return;
+                }
+                return `"${String(obj)}"` // 基本数据类型调用String
+            } else {
+                let isArr = Array.isArray(obj),arrJson = []; // 如果是对象，判断是不是数组
+                for (let key in obj) { // 
+                    let value = obj[key]; 
+                    if (typeof value !== 'object') {
+                        if (typeof value === 'function') {
+                            value = null;
+                        }
+                        value = `"${String(value)}"`
+                    }else{
+                        value = jsonStringify(value)
+                    }
+                    arrJson.push(isArr? `"${key}"`: (`"${key}"`+':')+value)
+                }
+                return (isArr ? '[':'{') + String(arrJson) +(isArr ? ']':'}');
+            }
+}
+const  r = jsonStringify(obj);
+const res = JSON.stringify(obj);
+console.log('原生',res)
+console.log('自写',r)
+    </script>
+</body>
+</html>

@@ -3,6 +3,9 @@ const HtmlWebpackPlugin  =  require('html-webpack-plugin');
 const MiniCssExtracgtPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const WorkBoxWebpackPlugin = require('workbox-webpack-plugin');
+const AddAssetHtmlWebpackPlugin = ('add-asset-html-webpack-plugin');
+
+const { webpack } = require('webpack');
 
 process.env.NODE_ENV = 'development'; // 开启开发环境css兼容处理
 
@@ -152,6 +155,14 @@ module.exports =  {
         new WorkBoxWebpackPlugin.GenerateSW({
             clientsClaim: true, // 删除旧的serviceWorker
             skipWaiting: true // 帮助serviceWorker快速启动
+        }),
+        // 告诉webpack哪些库不参与打包，使用时候名称也得变
+        new webpack.DllReferencePlugin({
+            manifest: resolve(__dirname, 'dll/manifest.json')
+        }),
+        // 将某个文件打包输出去，并在html中子弹引入
+        new AddAssetHtmlWebpackPlugin({
+            filepath: resolve(__dirname, 'dll/jquery.js')
         })
     ],
     optimization: {
