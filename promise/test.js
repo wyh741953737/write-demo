@@ -1,63 +1,121 @@
+const { resolve } = require("node:path");
+
+const { reject } = require("core-js/fn/promise")
+
 (function(window) {
     function Promise(excutor) {
         this.status = 'pending';
         this.data = undefined;
-        this.callBacks = [];
-
+        this.callbacks = [];
+        const that = this
         function resolve(value) {
-            // 1.改状态， 2.保存value， 3.如果有待执行回调函数（先指定回调，再改状态就会有待执行的回调函数），立即异步执行回调
-            if(this.status !== 'pending') {
-                return
-            } 
-            this.status = 'resolved';
-            this.data = value;
-            if(this.callBacks.length > 0) {
-                setTimeout(() => {
-                    this.callBacks.forEach(callBacksObj => {
-                        callBacksObj.onResolved(value);
-                    });   
-                });
+            that.status = 'resolved';
+            that.data = value;
+            if(that.callbacks.length > 0) {
+                that.callbacks.forEach(callobj => {
+                    setTimeout(() => {
+                     callobj.onResolved();
+                    });
+                })
             }
-
         }
-        function reject(reason) {
-            this.status = 'rejected';
-            this.data = reason;
-            if(this.callBacks.length > 0) {
-                setTimeout(() => {
-                 this.callBacks.forEach(callBacksObj => {
-                     callBacksObj.onRejected(reason)
-                 })   
-                });
+
+        function reject(error) {
+            that.status = 'rejected';
+            that.data = error;
+            if(that.callbacks.length > 0) {
+                that.callbacks.forEach(callobj => {
+                    setTimeout(() => {
+                     callobj.onRejected();
+                    });
+                })
             }
         }
         try {
-            excutor(resolve, reject);
-        } catch(error) {
+            excutor(resolve, reject)
+        }catch(error) {
             reject(error)
         }
     }
 
-    Promise.prototype.then = function(onResolved, onRejected) {
-        this.callBacks.push({
-            onResolved,
-            onRejected
+    Promise.resolve = function(value) {
+        return new Promise((resolve, reject) => {
+            if(value instanceof Promise) {
+                value.then(resolve, reject)
+            } else {
+                resolve(value);
+            }
         })
     }
-    Promise.prototype.catch = function(onRejected) {
 
+    Promise.reject = function(err) {
+        return new Promise((resolve, reject) => {
+            reject(err)
+        })
     }
-    Promise.resolve = function(value) {
 
-    }
-    Promise.reject = function(reason) {
-
+    Promise.race = function(promises) {
+        return new Promise((resolve, reject) => {
+            promises.forEach(p => {
+                Promise.resolve(p).then(resolve, reject)
+            })
+        })
     }
     Promise.all = function(promises) {
-
+        const values = new Array(promises.length);
+        let count = 0;
+        return new Promise((resolve, reject) => {
+            promises.forEach((p, index) => {
+                Promise.resolve(p).then(
+                    value  => {
+                        count++;
+                        values[index] = value;
+                        if(count === promises.length) {
+                            resolve(values);
+                        }
+                    }, 
+                    reason => {
+                        reject(reason)
+                    }
+                )
+            })
+        })
     }
-    Promise.race = function(promises) {
-
+    Promise.prototype.then = function(onResolved, onRejected) {
+        const onResolved = typeof onResolved === 'function' ? onResolved : value => value;
+        const onRejected = typeof onRejected === 'function' ? onRejected : reason => reason;
+        const that  = this;
+        return new Promise((resolve, reject) => {
+            const handler = function(callback) {
+                const result = callback(that.data);
+                try {
+                    if(result instanceof Promise) {
+                        result.then(resolve, reject)
+                    } else  {
+                        resolve(result)
+                    }
+                } catch(err) {
+                    reject(err)
+                }
+            }
+            if(that.status === 'pending') {
+                that.callbacks.push({
+                    onResolved(value) {
+                        handle(onResolved)
+                    },
+                    onRejected(reason) {
+                        handle(onRejected)
+                    },
+                })
+            } else  if(that.status === 'resolved') {
+                setTimeout(() => {
+                    handler(onResolved)   
+                });
+            } else {
+                setTimeout(() => {
+                    handler(onRejected)   
+                });
+            }
+        })
     }
-    window.Promise = Promise;
 })(window)

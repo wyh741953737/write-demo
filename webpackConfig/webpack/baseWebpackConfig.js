@@ -15,14 +15,14 @@ export default {
         runtimeChunk: 'single',
         splitChunks: {
             cacheGroups : {
-                vendors : {
+                vendors : { // 第三方包
                     chunks: 'initial',
                     test: vendorRex,
                     name: 'vendors',
                     priority: 10,
                     enforce: true
                 },
-                default: {
+                default: { // 共用的
                     chunks: 'initial',
                     minChunks: 2,
                     name: 'commons'

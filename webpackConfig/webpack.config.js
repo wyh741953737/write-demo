@@ -3,7 +3,8 @@ const HtmlWebpackPlugin  =  require('html-webpack-plugin');
 const MiniCssExtracgtPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const WorkBoxWebpackPlugin = require('workbox-webpack-plugin');
-const AddAssetHtmlWebpackPlugin = ('add-asset-html-webpack-plugin');
+const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
+const cleanWebpaclPlugin = require('clean-webpack-plugin');
 
 const { webpack } = require('webpack');
 
@@ -111,9 +112,9 @@ module.exports =  {
                             loader: 'babel-loader',
                             options: {
                                 presets: [
-                                    ['@babel/preset-env',
+                                    ['@babel/preset-env', // 预测包：babel提供一个平台转换es6，babel要靠babel-core（它也没这个能力，靠preset-env） preset-env里汇总很多插件，解析es6语法，简化了我们使用。
                                     {
-                                        useBuiltIns: 'usage', // 按需加载
+                                        useBuiltIns: 'usage', // 按需加载只打包你引入但是浏览器没实现的， 默认false：polyfill全部引入， usage:按需， entry:
                                         corejs: {
                                             version: 3, 
                                         },
@@ -144,7 +145,8 @@ module.exports =  {
         new HtmlWebpackPlugin({
             minify: { // 开启html压缩，移除空白，去除注释
                 collapseWhitespace: true,
-                removeComments: true
+                removeComments: true,
+                minifyCSS: true, // 压缩内联css
             },
             template: './src/index.html' // 赋值html文件并自动引入打包输出·的所有资源
         }),
@@ -163,7 +165,8 @@ module.exports =  {
         // 将某个文件打包输出去，并在html中子弹引入
         new AddAssetHtmlWebpackPlugin({
             filepath: resolve(__dirname, 'dll/jquery.js')
-        })
+        }),
+        new cleanWebpaclPlugin(['dist']) // 清除dist文件
     ],
     optimization: {
         splitChunks: {

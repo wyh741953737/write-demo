@@ -5,7 +5,7 @@ const scale = 1/dpr;
 const metaNode = document.querySelector('meat[name=viewport]');
 metaNode.setAttribute('content',  `width=device=width,initial-scale=${scale} user-scale=no`);
 
-// 上面那样写了之后，1px就会随着dpr缩放，pc端dpr=1， ipheon6/8是2， plus是3。我们还要将html中元素款大方相应比例
+// 上面那样写了之后，1px就会随着dpr缩放，pc端dpr=1， ipheon6/8是2， plus是3。我们还要将html中元素宽放大相应比例
 // 宽高要以rem为单位，以rem为单位的比例要缩放回来
 const htmlNode =  document.querySelector('html');
 const width =document.documentElement.clientWidth;
