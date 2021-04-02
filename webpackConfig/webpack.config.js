@@ -96,7 +96,7 @@ module.exports =  {
                     loader: 'file-loader'
                 },
                 // 1:bebel/preset-env只能转换基本语法，比如promise不能转换
-                // 2:全部兼容性处理 @babel/polyfill,体积很大，在页面直接inport "@babel/polyfill"
+                // 2:全部兼容性处理 @babel/polyfill,体积很大，在页面直接import "@babel/polyfill"
                 // 3:按需加载指定兼容性的库 core-js
                 {
                     test: /\.js$/,
@@ -179,6 +179,12 @@ module.exports =  {
         port: 3000,
         open: true, // 自动启动浏览器
         hot: true, // 改一个模块全部重新打包，开启HMR模块热替换可以优化开发环境构建速度
+        proxy: { 
+            '/api': { 
+                target: 'http://....',
+                pathRewrite: {'/api': ''} // 不以/api开头
+            }
+        }
     },
     devTool: 'eval-source-map',
     externals: {
@@ -197,7 +203,7 @@ module.exports =  {
 // hidden-source-map 外部
 // eval-source-map 内联，每个文件都生成对应的source-map
 // nosource-source-map 外部
-// cheap-source-map 外部
+// cheap-source-map 外部 
 // 内联：构建速度快，构建后体积大。外部：生成文件，内联没有
 
 // 开发环境：速度快，调试友好

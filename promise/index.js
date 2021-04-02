@@ -157,3 +157,93 @@
         return this.then(undefined, onRejected);
     }
 })(window);
+
+
+
+(function(w) {
+    
+    function Promise(excutor) {
+        this.status  = 'pending';
+        this.callbacks = [];
+        this.value = undefined;
+        const that = this;
+        function resolve(value) {
+            that.status = 'resolved';
+            that.data =value;
+            if(that.callbacks.length > 0) {
+                that.callbacks.forEach(item => {
+                    setTimeout(() => {
+                        item.onResolved();   
+                    });
+                })
+            }
+        }
+        function reject(reason) {
+            that.status = 'rejected';
+            that.data =reason;
+            if(that.callbacks.length > 0) {
+                that.callbacks.forEach(item => {
+                    setTimeout(() => {
+                        item.onRejected();   
+                    });
+                })
+            }
+        }
+        excutor(resolve, reject)
+    }
+
+
+    Promise.all = function(promises) {
+        return new Promise((resolve,reject)  => {
+            let count  = 0;
+            promises.forEach(p => {
+                Promise.resolve(p).then(
+                    value => {
+                        if(count === promises.length) {
+                            resolve(value)
+                        } else  {
+                            reject(value)
+                        }
+                    },
+                    reason => {}
+                )
+            })
+        })
+    }
+    Promise.prototype.then = function(onResolved, onRejected) {
+        onResolved = typeof  onResolved  === 'function' ? onResolved : value => value
+        const that = this;
+        return new Promise((resolve, reject) => {
+            function handler(callback) {
+                const result =  callback(that.data);
+                try {
+                    if(result instanceof Promise) {
+                        result.then(resolve, reject);
+                    } else {
+                        resolve(result);
+                    }
+                } catch(e) {
+                    reject(e)
+                }
+            }
+            if(that.status === 'pending') {
+                that.callbacks.push({
+                    onResolved(value) {
+                        handler(onResolved)
+                    },
+                    onRejected(reason) {
+                        handler(onRejected);
+                    }
+                })
+            } else  if(that.status === 'resolved') {
+                setTimeout(() => {
+                    handler(onResolved)   
+                });
+            } else {
+                setTimeout(() => {
+                  handler(onRejected);   
+                });
+            }
+        })
+    }
+})(window)
