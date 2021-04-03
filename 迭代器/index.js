@@ -13,3 +13,7 @@ function co(generator) {
 }
 
 co(generator)
+
+class Event {
+
+}
