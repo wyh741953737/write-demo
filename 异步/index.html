@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./index.js"></script>
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        html,body {
+            width: 100%;
+            height: 100%;
+        }
+        .box {
+            position: relative;
+			background: rgb(255, 213, 213);
+			width: 100%;
+			height: 100%;
+        }
+        .boxA {
+            /* A元素垂直居中
+            A元素距离屏幕左右各边各10px
+            A元素里的文字font—size:20px,水平垂直居中
+            A元素的高度始终是A元素宽度的50%  */
+            position: absolute;
+            background-color: palegreen;
+            width: calc(100vw - 20px);
+			height: calc(50vw - 10px);
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+     <div class="box">
+         <div class="boxA">ABox</div>
+     </div>
+</body>
+</html>
