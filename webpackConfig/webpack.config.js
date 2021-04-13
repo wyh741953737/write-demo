@@ -51,9 +51,9 @@ module.exports =  {
                     test: /\.css$/,
                     use: [...commonCssLoader],
                 },
-                        // 'style-loader', // 创建style标签，将js中的样式插入head生效
+                        // 'style-loader',
                         // MiniCssExtracgtPlugin.loader, // 生产环境：style-loader不能要，提取js中css成单独文件
-                        // 'css-loader', // 将css变成commonjs模块加载到js
+                        // 'css-loader', 
                         // postcss postcss-loader在webpack中用，还有用postcss-preset-env，能够帮助postcss识别环境，加载指定的配置
                         // postcss-preset-env帮助postcss找到package.json中browserlist里面的配置，通过配置加载指定的css兼容性样式
                         // "browserslist": {
