@@ -7,7 +7,7 @@ function ajax(options) {
         data: {},
         url: '',
         header: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/x-www-form-urlencoded'
         },
         success: function(){},
         error: function() {},
@@ -18,7 +18,7 @@ function ajax(options) {
         params += attr + '=' + options.data[attr] + '&';
     }
     params = params.substr(0, params.length-1);
-    const xhr = new XMLHttpRequest;
+    const xhr = new XMLHttpRequest();
 
     if(options.type.toLowerCase() === 'get') {
         options.url = options.url + '?' + params;
@@ -33,7 +33,6 @@ function ajax(options) {
        } else {
            xhr.send(params);
        }
-       xhr.send(params);
     } else if(options.type.toLowerCase() === 'get') {
         xhr.send();
     }
