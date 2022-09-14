@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 转boolean总的来说：null，undefined，NaN，0相关，空串都是false，其余都是true
+
+        // 数字转boolean, 除了0相关都是true，无穷值是true。
+        // console.log(Boolean(0)) // false
+        // console.log(Boolean(-0)) // false
+        // console.log(Boolean(+0)) // false
+        // console.log(Boolean(Infinity)) // true
+
+        // 字符串转boolean， 非空串
+        // console.log(Boolean()); // 不传是false
+        // console.log(Boolean('')); // 空串是false
+        // console.log(Boolean(' ')); // 空格是true
+        
+        // null,NaN, undefined 转boolean 都是false
+
+        // 对象转boolean,永远都是true
+
+        // 其他类型转数字 Number()函数适用于所有数据类型，parseInt()和parseFloat()主要用于将字符串转化为数值
+        // 数字转number转化为对应的number
+        
+        // 字符串转number
+        // 1）如果字符串中包函数值，包括数值字符前面加，减号的情况则转化为一个十进制数值，数字前面有0会被忽略
+        // 2）字符串包含浮点数，会转化为对应的浮点数，前面有0会被忽略
+        // 3）如果字符串中包含16进制格式，比如0xf，会将该16进制转化为对应的十进制数字
+        // 4）如果是空串，返回0
+        // 5）字符串不包含以上·几种情况返回NaN
+        // null转number 返回0，undefined返回NaN，boolean值true为1，false为0
+        // 对象转数字，调用valueOf()方法，并按照上面规则转换，如果结果是NaN，调用toString()方法，再按照转换规则进行转换。
+        // 考虑到字符串转number比较复杂，通常在需要得到整数的时候优先使用parseInt函数。parseInt更专注于字符串中是否包含数值。
+        // parseInt转化会忽略最前面的空格，如果字符串第一个字符不是数字，+，-符号立即返回NaN，parseInt可以传第二个参数，用于指定进制数，不传底数让parseInt自己决定如何解析，为避免出错建议始终传递底数
+        // parseFloat只解析10进制，遇到0x开头的16进制会忽略。parseFloat可以返回整数也可以返回小数
+
+        // 转字符串 toString()方法，除了null和undefined，其他数据类型都有toString方法，toString方法默认不接受参数，如果接受表示需要输出与底数匹配的数
+        // 比如10.toString(2) // 1010表示以2进制的形式输出   10.toString(8)表示以8进制形式输出
+        // 如果你不确定一个值是null还是undefined，建议使用String()函数，会得到相应值的字符串
+        // 一个值+''会变成字符串
+
+
+
+    </script>
+</body>
+</html>

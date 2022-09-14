@@ -1,4 +1,4 @@
-const map = new Map();
+const map = new Map();  // {}
 const wMap = new WeakMap();
 (function test() {
     const k1 = {x: 1};
@@ -7,6 +7,8 @@ const wMap = new WeakMap();
     wMap.set(k2, 'k2')
 })()
 map.forEach((key, value) => console.log(key, value))
+// Object只能字符串作为键，Map可以用任意类型作为键，weekMap只能用对象作为键，weekMap的key所引用的对象都是弱引用，只要对象的其他引用被删除垃圾回收机制就会释放该对象占用的内存
+// 所以weekMAp没有size也没clear方法
 // 思考一个问题：运行完test函数后，我们是否还要保留map里的k1呢？当然是不要的。
 // 但是运行forEach方法，发现map里面的k1依然能指向{x:1}，而且除了调用clear方法，我们无法删除这个对象，垃圾回收器更无法对它回收，久而久之就内存溢出了
 // Map共用了两个数组（一个放key,一个放value）。
@@ -14,7 +16,6 @@ map.forEach((key, value) => console.log(key, value))
 // 当从Map取值时，需要遍历所有的key，然后用索引从存储值的数组中检索出相应的value。
 // 这个实现的缺点很大，首先是赋值和搜索的时间复杂度为O(n)；其次是可能导致内存溢出，
 // 因为数组会一直保存每个键值引用，即便是引用早已离开作用域，垃圾回收器也无法回收这些内存。
-
 let WeakMap = function() {
     this.name = '__wm__' + uuid()
 };

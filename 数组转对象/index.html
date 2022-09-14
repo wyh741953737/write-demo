@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const arr = ['arr1', 'arr2', 'arr3'];
+        // 1. 数组转对象： 对象解构
+        const obj1 = {...arr}
+        console.log(obj1)
+
+        // 2. for。。in遍历
+        let obj2 = {}
+        for(let index in arr) {
+            obj2[index] = arr[index]
+        }
+        console.log(obj2)
+
+        // 3. Object.assign
+        let obj3 = Object.assign({}, arr)
+        console.log(obj3)
+
+        // 4. reduce方法
+        let obj4 = arr.reduce((pre,cur,index)=>{
+            pre[index] = cur
+            return pre
+        },{})
+        console.log(obj4)
+
+
+    </script>
+</body>
+</html>

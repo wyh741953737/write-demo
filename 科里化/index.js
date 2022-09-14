@@ -20,6 +20,20 @@ const isArray = curring(isType)('Array');
 console.log(isArray([1,2,3]))
 
 
+// 通用科里化
+function currying (fn, arr = []) {
+  let len = fn.length
+  return function(...args) {
+    arr = [...arr, ...args]
+    if(arr.length < len) {
+      return currying(fn, arr)
+    } else {
+      return fn(...arr)
+    }
+  }
+}
+
+
 
 
 

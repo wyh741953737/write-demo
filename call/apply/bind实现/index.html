@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Test() {
+            this.user = 'eileen';
+            // return {} // undefined
+            // return 1; // eileen
+            // return null // eileen
+            // return undefined; // eileen
+            // return function() {} // undefined
+            // return [] // undefined
+        }
+        const newObj = new Test();
+        // console.log(newObj.user)
+
+    </script>
+    <script>
+        // new过程
+        function createNew(Constructor) {
+            const obj = new Object(); // 构造出一个空对象
+            const args = Array.prototype.slice.call(arguments,1) // arguments伪数组没有slice方法，通过call继承数组原型的call方法，参数传arguments第二个参数
+            obj.__proto__ = Constructor.prototype // 把新的实例对象的原型指向构造函数的显式原型
+            const ret = Constructor.apply(obj, args) // 将构造函数中的this指向创建出来的空对象
+            return typeof ret === 'object' ? ret : obj // 如果返回值是引用类型，返回引用类型，否则返回空对象
+        }
+        function Father(name) {
+            this.name = name
+        }
+        const testObj = createNew(Father, 'Eileen')
+        const testObj2 = new Father('jok')
+        // console.log(testObj)
+        // console.log(testObj2)
+
+    </script>
+    <script>
+        // call, apply, bind 实现
+        const obj = {
+            value: 'Eileen',
+            fn: function(a,b) {
+                console.log('fn中的this', this, a+b)
+            }
+        }
+
+        function test(name, age) {
+            this.text = '我是测试数据';
+            console.log(this.value, name, age);
+        }
+
+        Function.prototype.myCall = function(ctx) {
+            // console.log(this) // myCall是test调用的，this指向test
+            // console.log(ctx)  // ctx是call，apply传进来的参数，
+            ctx = ctx || window; // 获取上下文对象
+            ctx.fn = this; // 把this赋值给ctx
+            const args = [...arguments].slice(1); // 获取参数，第二个开始的
+            const result = ctx.fn(...args); // 
+            delete ctx.fn;
+            return result;
+        }
+        // test.myCall(obj, 'aA', 12)
+
+        Function.prototype.myApply = function(ctx) {
+            const jcObj = ctx || window; // 获取传进来的第一个参数
+            jcObj.fn = this; // 把外面的对象作为传进来对象的一个方法
+            const args = Array.prototype.slice.call(arguments, 1); // 获取参数
+            let result;
+            if(args) {
+               result = jcObj.fn(args[0]);
+            } else {
+               result = jcObj.fn();
+            }
+            delete jcObj.fn;
+            return result;
+        }
+        // test.myApply(obj,['Apply', 14])
+
+        // bind方法会创建一个新的函数，这个函数被调用的时候，其this被置为传入的值，其参数列表前几项为创建时指定的参数序列
+        // bind函数会创建一个新的绑定函数，这个绑定函数和被调用函数有相同的函数体，调用绑定函数通常会导致执行包装函数，绑定函数也可以通过new调用
+
+        // bind有一个特性：作为构造函数使用的绑定函数，传入的第一个参数可以当做构造函数使用
+       // bind函数会创建一个新 绑定函数 ， 绑定函数 与被调函数具有相同的函数体。调用 绑定函数 通常会导致执行 包装函数 绑定函数也可以使用new运算符构造：
+       //这样做就好像已经构造了目标函数一样。提供的 this 值将被忽略，而前置参数将提供给模拟函数 // 总的来说bind有如下三个功能点：
+        // 1. 改变原函数的 this 指向，即绑定上下文，返回原函数的拷贝
+        // 2. 当 绑定函数 被调用时，bind的额外参数将置于实参之前传递给被绑定的方法。
+        // 3. 注意，一个 绑定函数 也能使用 new 操作符创建对象,这种行为就像把原函数当成构造器，
+        // thisArg 参数无效。也就是 new 操作符修改 this 指向的优先级更高。
+
+        // 输入： 接受一个或者多个参数，第一个是要绑定的上下文，额外参数当做绑定函数的前置参数
+        // 输出：返回原函数的拷贝，即返回一个函数，这个函数具备原函数的功能
+        const obj1 = function() {}
+        const obj2 = function() {
+            obj1.bind(obj2, 3)
+        }
+
+        Function.prototype.myBind = function(thisArg) {
+            if(typeof this !== "function") {
+                throw new Error("不是一个函数")
+            }
+            const self = this // 保存this，也就是调用bind的人
+            const args = [...arguments].slice(1) // 获取参数
+            const fnBound = function() { // 创建一个函数
+                // console.log('this',this) this一开始指向window，之后指向fnBound{}
+                const _this = this instanceof self ? this : thisArg; // 判断
+                return self.apply(_this, args.concat(Array.prototype.slice.apply(arguments)))
+            }
+            function fnFun() {}
+            fnFun.prototype = self.prototype;
+            fnBound.prototype = new fnFun();
+            return fnBound; // 返回一个函数
+        }
+
+        function foo(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        var objBind = {}
+        var bar = foo.myBind(objBind);
+        bar('jack', 12);
+        var alice = new bar('eileen',12);
+        console.log(objBind.name)
+        console.log(alice.name)
+
+    </script>
+</body>
+</html>
+
+<!--
+    如果箭头函数定义在对象里，对象不会产生作用域，箭头函数相当于定义在全局
+
+    this指向： this指向在函数定义的时候确定不了，只有在函数执行的时候才能确认，this最终执行调用它的对象。
+    1）非严格模式下，全局下的this指向window，严格模式下指向undefined
+    2）作为对象的方法被调用指向该对象；
+    3）作为普通函数被调用指向window
+    4）作为构造函数被使用指向实例对象。
+    一个函数如果返回一个对象(函数也是对象），this指向这个对象，如果不是对象就指向这个函数的实例
+
+    箭头函数：
+    1）箭头函数中的this在函数定义的时候就确定了，箭头函数本身没有this，会向上级作用域中查找。直到找到。
+    2）箭头函数不能通过new关键字调用构造函数，因为箭头函数在创建的时候程序没有给箭头函数创建[[constructor]]方法，意味着没有再生能力，就不能通过new创建实例，而且箭头函数是匿名函数，用完就丢，没必要给它增加可重复使用的构造功能。
+    3）箭头函数没有构造功能，意味着也不需要构造函数原型，也就是不会自动生成prototype属性
+    4）箭头函数中不能使用arguments伪数组，箭头函数没有arguments对象，毕竟匿名函数一般都不用参数或者限定参数来执行，而普通函数要复用就有arguments对象可以实现更灵活的操作，不过依然可以让他看起来有arguments
+    5) 我们在普通函数里面返回一个箭头函数，普通函数有arguments因为作用域链的关系，箭头函数保存了arguments的长度（其实就是闭包）
+    6）箭头函数不能使用bind。
+
+    箭头函数和普通函数区别：
+      普通函数：有arguments，可以通过new创建实例，可以通过call，apply，bind改变this指向，this指向是动态的，在函数指向的时候确定
+      箭头函数：没有arguments，原型，不能通过new调用，没有arguments，call，apply，bind不能改变this指向，this指向是静态的在函数定义的时候就确定了。
+
+
+    call, apply, bind可以改变this指向， call和apply会立即执行函数，call参数一个个传，apply参数是一个数组，bind不会立即执行函数
+
+
+    new的过程
+    1）创建一个空的实例对象
+    2）通过Array.prototype.slice.call让arguments继承数组的slice方法获取到参数
+    3）实例对象的隐式原型指向构造函数的显示原型
+    4）通过apply改变this，将构造函数中的this指向创建出来的空对象
+    5）如果返回是引用类型，返回引用类型，否则返回新对象
+-->
+
+

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .wrap {
+            width: 400px;
+            height: 400px;
+            border: 1px solid red;
+            position: relative;
+        }
+        .center {
+            border: 1px solid pink;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="center">我是内容，我需要居中</div>
+    </div>
+</body>
+</html>
+
+<!--
+  行内元素居中： span, a, img
+
+  块元素居中：div, p, ul,li,h1-h5, 
+
+
+   需要居中元素宽高未知：
+    1) 绝对定位+transformX/Y+top：50%
+
+
+   需要居中元素宽高已知；
+    1) flex布局
+    2) 居中元素绝对定位+四方位0，父元素相对定位
+    4）使用transform： translate+margin-top/left自身宽高一半
+    5）给父元素添加伪元素:content: '', display:inline-block, vertical-align: middle, 子也行内块+vertical-align：middle，只能实现垂直居中
+    6) display:table,不能居中
+
+
+    PC端有兼容性要求，宽高固定，推荐absolute+margin
+    PC端有兼容性要求，宽高不固定，推荐css-table
+    pc端无兼容性，推荐flex
+
+
+-->

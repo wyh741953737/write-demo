@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+<style>
+  #container {
+    width: 400px;
+    height: 400px;
+    border: 1px solid red;
+  }
+  .content {
+    height: 4000px;
+  }
+</style>
+</head>
+<body>
+  <div id="container">
+    <div class="content"></div>
+  </div>
+  <script>
+    const container= document.getElementById('container');
+    let lastTime = Date.now();
+    function throttle(callback, time) {
+      let last;
+      return function() {
+        const context = this;
+        const args = Array.from(arguments);
+        let now = Date.now();
+        if(last) {
+          if(now-last >= time) {
+            callback.apply(context, args);
+          }
+        } else {
+          callback.apply(context, args);
+          last = now;
+        }
+      }
+    }
+    function debounce(fn, time) {
+      let timer;
+      return function() {
+        let context = this;
+        let args = Array.from(arguments);
+        if(timer) clearTimeout;
+        timer = setTimeout(() => {
+          fn.apply(context, args);
+        }, time);
+      }
+    }
+    const scrollEvent = (event) => {
+      let nowDate = Date.now();
+      lastTime = nowDate;
+      console.log('触发滚动事件')
+    }
+    container.addEventListener('scroll', throttle(scrollEvent, 1000))
+  </script>
+</body>
+</html>

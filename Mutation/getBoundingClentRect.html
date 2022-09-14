@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!---
+    返回元素的大小及其相对于视口的位置
+  -->
+  <script>
+    function isView(el) {
+      const top = el.getBoundingClentRect().top
+      const bottom = el.getBoundingClentRect().bottom
+      const seeArea = document.documentElement.clientHeight // 可视区高度
+      if (top < seeArea && bottom > 0) {
+        return true
+      }
+      return false
+    }
+  </script>
+</body>
+
+</html>

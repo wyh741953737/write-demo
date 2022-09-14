@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    //  fn是()=>console.log('执行任务')， 每10秒执行一次
+    function setTimeout(fn, time) {
+      let timer, isClear;
+
+      function interval() {
+        if (isClear) {
+          isClear = false;
+          clearTimeout(timer)
+          return
+        }
+        fn();
+        timer = setTimeout(interval, time);
+      }
+      timer = setTimeout(interval, time);
+      return () => {
+        isClear = true;
+      }
+    }
+
+    setTimeout(()=>console.log('111'), 1000)
+  </script>
+</body>
+
+</html>

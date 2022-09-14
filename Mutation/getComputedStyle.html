@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!----
+   DOM2 Style在document.defaultView上增加了getComputedStyle方法，包含元素的计算样式
+   document.defaultView.getComputedStyle(obj, name)
+   和element.style相同点：都返回CSSStyleDeclaration对象，不同点：
+   1：element.style读取的只是元素的内联样式，即写在元素的style属性上的样式，getComputedStyle读取的是最终的样式包括内联，嵌入和外部样式
+   2：element.style支持读写，而getComputerStyle只支持读。
+  -->
+  <script>
+    function getStyleByAttr(obj, name) {
+      return window.getComputedStyle ? window.getComputedStyle(obj, null)[name] : obj.currentStyle[name]
+    }
+    let node = document.getElementById('myDiv')
+    console.log(getStyleByAttr(node, 'backgroundColor'))
+    console.log(getStyleByAttr(node, 'width'))
+
+  </script>
+</body>
+
+</html>

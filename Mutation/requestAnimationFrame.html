@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!---
+  执行一个动画，并要求浏览器在下一次重绘前调用指定的回调函数更新动画
+  和setTimeout相比，requestAnimationFrame最大的优势是由系统决定回调的执行，浏览器刷新频次不同，时间间隔就不同
+  CPU节能：setTimeout实现的动画：当页面被隐藏或者最小化时候，定时器任然在后台执行动画，此时页面不可见，刷新动画没有意义，浪费CPU
+  requestAnimationFrame当页面未激活，刷新任务会被系统停止，因此requestAnimationFrame也会停止渲染，当页面被激活动画就从上次停留的地方继续执行节省了CPU
+  函数节流：高频事件resize，scroll中，为了防止在一个刷新间隔内发生多次函数执行，requestAnimationFeame可以包子每个刷新间隔内只会被执行一次，
+  一个刷新间隔内函数被多次执行没有意义，因为显示器每16.6ms刷新一次，多次绘制不会在屏幕上面显示出来
+  -->
+</body>
+
+</html>

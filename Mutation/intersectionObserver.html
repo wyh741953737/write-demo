@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!----
+    intersectionObserver观察元素是否可见，目标元素与视口产生交叉分区，
+    和getBondingClentRect相比它的优点是不会引起重绘回流
+    图片懒加载：判断图片是否到了可视区，传统方法：监听scroll事件，但是scroll会在短时间内触发多次影响性能，
+  -->
+  <script>
+    const div2 = document.getElementById('div2')
+    const imgs = document.querySelectorAll('img[data-src')
+    const config = {
+      rootMargin: '0px',
+      threshold: 0
+    }
+    const io = new IntersectionObserver((entrie, self) => {
+      // entries是一个数组，比如2个被观察对象可见性发生变化entries就会有2个成员
+      entries.forEach((element, index) => {
+        if (element.isIntersectiong) {
+          div2.innerText = '我出来了'
+          // 懒加载
+          const img = element.target
+          const src = img.dataset.src
+          if (src) {
+            img.src = src
+            img.removeAttribute('data-src')
+          }
+          // 无线滚动,如果不可见就返回
+          if (element[0].intersectionRatio <= 0) return
+          // 否则就加载
+          loadItems(10)
+          self.unobserve(img)
+        } else {
+          div2.innerText = '首页'
+        }
+      })
+    }, { root: null, threshold: [0, 1] })
+    io.observe(document.getElementById('example'))
+    io.unobserve(element)
+    io.disconnect()
+  </script>
+</body>
+
+</html>

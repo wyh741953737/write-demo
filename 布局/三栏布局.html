@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #bd{
+        }
+        .col {
+            float: left;
+            position: relative;
+        }
+
+        #middle{
+            width: 100%;
+            height: 500px;
+            background:blue;                
+        }
+        .child {
+            margin: 0 200px;
+        }
+        #left{
+            width:200px;
+            height:500px;
+            background: #0c9;
+            margin-left: -100%;
+        }
+        #right{
+            width: 200px;
+            height: 500px;
+            background: #0c9;
+            margin-left: -200px;
+        }   
+        
+        .table {
+            display: table;
+            margin: 5px;
+            width: 1000px;
+        }
+        .row {
+            display: table-row;
+            
+        }
+        .cell {
+            display: table-cell;
+            padding: 10px;
+            border: 1px solid black;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="bd">
+        <div id="middle" class="col">
+            <div class="child">middle</div>
+        </div>
+        <div id="left" class="col">left</div>
+        <div id="right" class="col">right</div>
+    </div>  
+
+    <div class="table">
+        <div class="row">
+            <div class="cell">内容内容内容内容内容内内容内</div>
+            <div class="cell">内容内容内容内容内容内容内容内容内容</div>
+            <div class="cell">内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+<!--
+    display:flex后，外层盒子高度被撑开，里面子盒子继承父盒子高度
+
+    三栏布局：两栏固定，中间自适应
+    1） flex，中间盒子flex为1， 简单，ie兼容不好，要ie9以上
+    2） float+margin: 中间盒子放在最后，左右两边浮动，中间盒子通过margin吧左右两边空出来。使用浮动，中间盒子必须放在最后，不然右边会排在第二行右下角, 用的时候要清除浮动。
+    3） position+left+right, 中间盒子可以任意摆放
+    4)  table布局： 父盒子display:table, 所有子盒子display: table-cell， 兼容性不好，不利于搜索引擎抓取信息
+    5)  grid网格布局： 父盒子display：grid, grid-template-rows: 200px auto 200px; grid-template-columns: 300px; 兼容性也不好
+    6) 圣杯布局：
+    7）双飞翼布局：
+
+    圣杯和双飞翼布局都是两边定宽，中间自适应，中间优先渲染。不同点在于阻止中间栏被遮住的思路不一样。
+    圣杯布局为了中间不被遮住，通过父盒子padding空出左右两边位置，左右两边设置相对定位+left和margin-left,不需要增加多余标签, 如果中间盒子宽度小于两侧会变形
+    双飞翼直接在中间盒子再套一个盒子，子盒子通过margin空出左右两边位置，左右通过margin-left进行定位。不会出现圣杯布局当中间宽度小于两侧变形。
+    双飞翼布局是圣杯布局的改进，
+
+
+    table布局需要等到页面全部加载完才显示，div加载一行显示一行，而且table不符合标签语义化，不利于SEO，div相比简洁。
+    display:table，table以块table显示， inline-table以内联表格显示，table-cell类似td和th。table-caption表格标题
+    table表格中的单元格最大的特点之一就是同一行列表元素都等高。所以，很多时候，我们需要等高布局的时候，就可以借助display:table-cell属性。说到table-cell的布局。
+    
+
+-->

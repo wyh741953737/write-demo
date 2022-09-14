@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="mainfest" href="mainfest.json">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  Hello PWA
+  <script>
+    window.addEventListener('load', () => {
+      if('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').then(registration => {
+          console.log('有serviceRegistration就说明serviceworker注册成功了', registration)
+        }).catch(err => {
+          console.log('错误', err)
+        })
+      }
+    })
+
+    // 如果页面一进来页面没网给用户提示
+    if(Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+    if(!navigator.onLine) {
+      new Notification('提示', { body: '您当前没有网络，访问的是缓存'})
+    }
+    window.addEventListener('online', () => {
+      new Notification('提示', {body: '已经连上网了'})
+    })
+  </script>
+</body>
+</html>

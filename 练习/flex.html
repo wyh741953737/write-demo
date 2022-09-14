@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div style="display: flex; border: 1px solid red;flex-wrap: wrap;">
+    <div style="width: 500px; height: 600px; background: pink;flex-grow: 1;">div1</div>
+    <div style="width: 500px; height: 600px; background: red;flex-grow: 1;">div2</div>
+    <div style="width: 500px; height: 600px; background: green;flex-shrink: 0;">div3</div>
+  </div>
+</body>
+</html>
+
+flex-grow 每个item为1时等比例占剩余空间，默认为0，不放大
+felx-shrink： 默认1， 空间不同时候 缩小比例相同
+flex-basics：分配剩余空间之前，项目占据剩余空间，默认值auto

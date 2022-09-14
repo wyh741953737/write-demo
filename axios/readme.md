@@ -57,3 +57,20 @@ axios({
 其他地方调用c函数执行取消发送请求，isCancel可以用了判断是否是用户取消请求
 批量发送多个请求
 axios.all([一个个promise实例]).then()
+
+axios的取消请求相比于我们直接使用abort，因为在promise中写入重复触发时会抛出cancel对象，
+所以无需我们自己去解决按钮被连续多次点击的问题，同时取消请求也能在我们发出多个相关联请求时，使用最新的数据。
+
+缺点
+1.不支持jsonp,需要自己封装
+2.基于xhr实现，所以无法在service worker,web worker中使用
+
+通过XMLHttpRequest和process来判断是浏览器还是node环境，从而在不同的环境提供不同的http请求模块，实现客户端和服务端程序的兼容。
+
+
+ajax和fetch区别
+fetch是全局window上的方法，fetch(url).then(res > {})
+原生js。脱离了XHR，从fetch返回的promise不会拒绝http错误状态，即使是400或500都当成功解决，只在网络故障或任何阻止请求完成时才拒绝。
+默认情况fetch不会接受和发送cookie要发需要配置credentials：'same-origin'
+fetch无法监测请求的进度，ajax可以onreadyStateChange
+

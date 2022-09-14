@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="image-container">
+    <div class="image">
+      <img id="img" data-src="image/logo.png" />
+    </div>
+    <div class="image">
+      <img id="img" data-src="image/logo.png" />
+    </div>
+    <div class="image">
+      <img id="img" data-src="image/logo.png" />
+    </div>
+    <div class="image">
+      <img id="img" data-src="image/logo.png" />
+    </div>
+    <div class="image">
+      <img id="img" data-src="image/logo.png" />
+    </div>
+    <div class="image">
+      <img id="img" data-src="image/logo.png" />
+    </div>
+    <div class="image">
+      <img id="img" data-src="image/logo.png" />
+    </div>
+    <div class="image">
+      <img id="img" data-src="image/logo.png" />
+    </div>
+    <div class="image">
+      <img id="img" data-src="image/logo.png" />
+    </div>
+    <div class="image">
+      <img id="img" data-src="image/logo.png" />
+    </div>
+    <div class="image">
+      <img id="img" data-src="image/logo.png" />
+    </div>
+    <div class="image">
+      <img id="img" data-src="image/logo.png" />
+    </div>
+    <div class="image">
+      <img id="img" data-src="image/logo.png" />
+    </div>
+    <div class="image">
+      <img id="img" data-src="image/logo.png" />
+    </div>
+    <div class="image">
+      <img id="img" data-src="image/logo.png" />
+    </div> 
+    <script>
+      const images = document.getElementById('img');
+      let clientHeight = window.innerHeight || document.documentElement.clientHeight; // 可视区高度
+      function lazyLoad() {
+        for(let i=0;i<images.length;i++) {
+          if(images[i].getBoundingClientRect().top < clientHeight) {
+            images[i].src = images[i].dataset.src;
+          }
+        }
+      } 
+      window.addEventListener('scroll', lazyLoad, false)
+    </script>
+  </div>
+</body>
+</html>

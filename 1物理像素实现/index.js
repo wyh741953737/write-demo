@@ -9,7 +9,7 @@ metaNode.setAttribute('content',  `width=device=width,initial-scale=${scale} use
 // 宽高要以rem为单位，以rem为单位的比例要缩放回来
 const htmlNode =  document.querySelector('html');
 const width =document.documentElement.clientWidth;
-htmlNode.style.fontSize = window * dpr + 'px'
+htmlNode.style.fontSize = width * dpr + 'px'
 
 
 
@@ -31,7 +31,7 @@ htmlNode.style.fontSize = window * dpr + 'px'
 //         transform: scaleY(0.5)
 //     }
 // }
-// @media screen addEventListener(-webkit-min-device-pixel-ratio: 3) {
+// @media screen and (-webkit-min-device-pixel-ratio: 3) {
 //     element:before {
 //         transform: scaleY(0.3333);
 //     }
@@ -65,13 +65,10 @@ htmlNode.style.fontSize = window * dpr + 'px'
 //     top: 0;
 //     left: 0;
 //     border: 1px solid #000;
-//     -webkit-box-sizing: border-box;
 //     box-sizing: border-box;
 //     width: 200%;
 //     height: 200%;
-//     -webkit-transform: scale(0.5);
 //     transform: scale(0.5);
-//     -webkit-transform-origin: left top;
 //     transform-origin: left top;
 //   }
   

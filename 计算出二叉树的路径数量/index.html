@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 给定一个二叉树，求所有从根节点到叶子节点的路径
+        const treeData = {
+            key: 1,
+            children: [
+                {
+                    key: 2
+                }, 
+                {
+                    key: 3,
+                    children: [
+                        {
+                            key: 5
+                        }
+                    ]
+                }
+            ]
+        }
+
+        var binaryTreePaths = function(root) {
+            if(root == null) 
+                return []
+            if (root.left == null && root.right == null) 
+                return [root.val.toString()]
+            //递归
+            let letChildPath = binaryTreePaths(root.left).map(item => root.val + '->' + item)
+            let rightChildPath = binaryTreePaths(root.right).map(item => root.val + '->' + item)
+            return letChildPath.concat(rightChildPath)
+        };
+    </script>
+</body>
+</html>

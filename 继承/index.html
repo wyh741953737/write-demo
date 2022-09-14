@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        // // 原型链继承,继承了原型对象的方法 不支持子构造函数实例化对象传参，父构造函数的方法会变成共有方法
+        // function Father(name) {
+        //     this.name = name;
+        //     this.sayName = function() {
+        //         console.log('原型中', this.name)
+        //     }
+        //     this.color = ['红', '绿']
+        // }
+        // Father.prototype.getName = function() {
+        //     console.log('我是Father原型上的方法');
+        // }
+        // Father.prototype.hobby = '跳舞';
+
+        // function Son(name) {
+        //     this.subName = name;
+        // } 
+
+        // Son.prototype.getSonFunc = function() {
+        //     console.log('我是Son原型上的方法')
+        // }
+
+        // Son.prototype = new Father();
+        // const son = new Son('eee');
+        // const son2 = new Son('aaa');
+        // // console.log(son.subName); // 能访问到
+        // // console.log(son.getSonFunc()) // 访问不到父构造函数原型上的方法
+        // son.sayName = function() { console.log('我变了'),this.name} 
+        // console.log(son.sayName()) // 我变了
+        // console.log(son2.sayName()) // 原型中
+        // son.color.push('蓝') // 改变父构造函数上的属性，所有实例都改变
+        // console.log(son.color); // ['红', '绿', '蓝']
+        // console.log(son2.color);// ['红', '绿', '蓝']
+        // console.log(son.getSonFunc) // 访问不到子构造函数原型上的方法
+        // console.log(son.getName) // 父构造函数原型上的方法能访问到
+        // console.log(son.hobby)
+
+        
+        // 盗用构造函数继承，支持子构造函数传参， 实例修改父构造函数的属性不会影响其他实例， 访问不到父构造函数原型上的属性和方法。
+        // 共有方法定义在构造函数中定义，每次实例化都要创建一遍，无法实现函数的复用，浪费内存
+        // 通过call只是调用了父构造函数的属性和方法，父构造函数的原型方法没有继承过来
+
+        // function Father(name) {
+        //     this.name = name;
+        //     this.sayName = function() {
+        //         console.log('原型中',this.name)
+        //     }
+        //     this.color = ['红', '绿']
+        // }
+
+        // Father.prototype.getName = function() {
+        //     console.log('我是Father原型上的方法');
+        // }
+        // Father.prototype.hobby = '逛街'
+
+        // function Son(name) {
+        //     this.subName = name;
+        //     Father.call(this, name)
+        // } 
+
+        // Son.prototype.getSonFunc = function() {
+        //     console.log('我是Son原型上的方法')
+        // }
+        // Son.prototype.subText = '跳舞';
+        
+        // const son = new Son('eee');
+        // const son2 = new Son('aaa');
+        // son.sayName = function() { console.log('我变了', this.name)}  // 修改原型sayName，不改变所有实例上的sayName
+
+        // console.log(son.sayName()) // 我变了
+        // console.log(son2.sayName()) // 原型中
+
+        // son.color.push('紫') // 改变父构造函数的属性，不会改变所有实例上的属性
+        // console.log(son.color) // ['红', '绿', '紫']
+        // console.log(son2.color) // ['红', '绿']
+
+        // console.log(son.hobby) // undefined 访问不到Father原型上的属性
+        // console.log(son.getName) // undefined 访问不到Father原型上的方法
+        // console.log(son.getSonFunc()) // '我是Son原型上的方法'
+        // console.log(son.subText) // 跳舞
+
+
+
+        // // 组合继承：通过原型链继承继原型对象的方法，利用构造函数继承实现属性的继承，而且可以传参
+        // //  组合继承的问题： __proto__里的属性没用，执行了2次构造函数。
+        // function Father(name) {
+        //     this.name = name;
+        //     this.sayName = function() {
+        //         console.log('我是父构造函数的方法',this.name)
+        //     }
+        //     this.color = ['红', '绿']
+        // }
+        // Father.prototype.getName = function() {
+        //     console.log('我的父构造函数原型上的方法')
+        // }
+        // function Son(name) {
+        //     this.subName = name;
+        //     Father.call(this, name)
+        // }
+        // Son.prototype.getSubName = function() {
+        //     console.log('我是子构造函数原型上的方法')
+        // }
+        // Son.prototype = new Father();
+        // const son1 = new Son('Eileen');
+        // console.log(son1.sayName()) // 支持传参
+        // console.log(son1.getName()) // 访问的到父构造函数原型上的方法了
+
+     //   // 原型式继承： 和原型链继承类似，每次实例化都要创建方法，无法实现函数的复用
+    //     function fun(obj) {
+    //         function Son() {};
+    //         Son.prototype = obj;
+    //         return new Son();
+    //     }
+    //    const objProto = {
+    //        name: 'Eileen'
+    //    }
+
+    //    const son = fun(objProto);
+    //    console.log(son.name)
+
+
+        // // 寄生继承: 和构造函数继承类似，支持子构造函数传参
+        // // 调用一次就得创建一次方法，无法实现复用，效率低
+        // function fun(obj) {
+        //     function Son() {}
+        //     Son.prototype = obj;
+        //     return new Son();
+        // }
+        // function JSJc(obj) {
+        //     let clone = fun(obj)
+        //     clone.say = function() {
+        //         console.log('我是新增方法')
+        //     }
+        //     return clone;
+        // }
+
+        // const objJsd = {
+        //     name: 'Eileen'
+        // }
+        // const o1 = JSJc(objJsd)
+
+
+        // 寄生组合式继承
+        // Object.create用以指定对象为原型，创建一个新对象，参数一是对象，参数二是新创建的对象，使用Object.create可以实现继承
+    //     function Parasitic(Son, Father) {
+    //         const clone = Object.create(Father.prototype); // 先创建父构造函数的原型
+    //         Son.prototype = clone; // 将父构造函数的原型赋值给子构造函数的原型
+    //         clone.constructor = Son; // 父构造函数原型的constructor指向子构造函数
+    //     }
+
+    //     function Father(name) {
+    //         this.name = name;
+    //         this.type = ['js', 'java']
+    //     }
+    //     function Son(name) {
+    //         Father.call(this, name);
+    //     }
+    //     Parasitic(Son, Father);
+    //     const son1 = new Son('张三');
+    //     son1.type.push('photo');
+    //     console.log(son1.type)
+    //    const son2 = new Son('李四');
+    //    console.log(son2.type)
+    //    console.log(son1.name)
+
+    // function Inhert(Son, Father) {
+    //     const clone = Object.create(Father.prototype)
+    //     Son.prototype = clone
+    //     clone.constructor = Son
+    // }
+
+    class Person {
+        constructor(name) {
+            this.name = name
+            this.arr = []
+        }
+        getName () {
+            console.log('哈哈哈')
+        }
+        static getAge() {
+            console.log('age')
+        }
+        static classProperty = 1
+    }
+    // const p = new Person('曦曦')
+    // console.log(p.getAge)
+    class P extends Person{
+        constructor(age) {
+            this.age = age
+            this.hobby = []
+        }
+        page() {}
+    }
+    // const p = new P(12)
+    console.log(P.classProperty)
+
+    </script>
+</body>
+</html>
+
+<!--
+    new过程：
+    1）创建一个空对象 const obj = new Object()
+       获取参数 const args = Array.prototype.slice.call(arguments, 1);
+    2) 这个新对象的[[Prototype]]特性被赋值为构造函数的prototype属性  obj.__proto__ = Constructor.prototype
+    3) 构造函数内部的this被赋值给新对象, 执行内部代码（给对象增加属性和方法） const result = Constructor.call(obj, args)
+    4） 如果代码中有return，并且return为引用类型，则返回该引用类型，否则返回新对象 return typeOf result === 'object' && typeOf result !== null ? result : obj;
+-->

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button id="execute">打开电视</button>
+  <button id="undo">关闭电视</button>
+  <script>
+    const Tv = {
+      open: function() {
+        console.log('打开电视')
+      },
+      close: function() {
+        console.log('关闭电视')
+      },
+    }
+
+    const OpenTvCommand = function(receiver) {
+      this.receiver = receiver;
+    }
+
+    const createCommand = function(receiver) {
+      const execute = function() {
+        this.receiver.open();
+      }
+      const undo = function() { // 私有
+        this.receiver.close();
+      }
+      return { execute, undo} // 公开
+    }
+
+    const setCommand = function(command) {
+      document.getElementById('execute').addEventListener('click', function() {
+        command.execute(); 
+      });
+      document.getElementById('undo').addEventListener('click', function() {
+        command.undo(); 
+      });
+    }
+    setCommand(new createCommand(Tv));
+  </script>
+</body>
+</html>

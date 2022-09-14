@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <p id="number">0</p>
+  <button id="btn">累加+</button>
+  <button id="reduce">减少-</button>
+  <script>
+    let number = document.getElementById('number');
+    let btn = document.getElementById('btn');
+    let reduce = document.getElementById('reduce');
+
+    // 真正要执行的动作在这实现, 接收者
+    let worker = {
+      add() {
+        let oldVal = isNaN(number.innerHTML) ? 0 : parseInt(number.innerHTML);
+        worker.oldVal = oldVal;
+        number.innerHTML = oldVal + 1;
+      },
+      reduce() {
+        number.innerHTML = worker.oldVal-- || 0;
+      }
+    }
+    
+    // 调用者
+    class AddCommand {
+      constructor(receiver) {
+        this.receiver = receiver;
+      }
+      execute() {
+        this.receiver.add();
+      }
+    }
+
+    // 调用者
+    class ReduceCommand{
+      constructor(receiver) {
+        this.receiver = receiver;
+      }
+      execute() {
+        this.receiver.reduce();
+      }
+    }
+
+    // 命令者，触发click事件时候，发出命令
+    let addCommand = new AddCommand(worker);
+    let reduceCommand = new ReduceCommand(worker);
+
+    btn.addEventListener('click', ()=> addCommand.execute());
+    reduce.addEventListener('click', ()=> reduceCommand.execute());
+    
+  </script>
+</body>
+</html>

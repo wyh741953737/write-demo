@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 一位数组转二维
+        const longArr = [1,12,13, 21,22,23, 31,32,33];
+        function translateErWei(arr, n) {
+            let index = [];
+            let result = [];
+            if(n >= arr.length || n === 1) {
+                return arr
+            }
+            for(let i = 1; i<= arr.length; i++) {
+                if(i%n===0) {
+                    index.push(i)
+                }
+            }
+            for(let j of index) {
+                const rest = arr.slice(j-n, j)
+                result.push(rest)
+            }
+            const restIndex = index.length * n;
+            result.push(arr.slice(restIndex))
+            return result.filter(item=> item.length > 0)
+        }
+        const a = translateErWei(longArr, 3)
+        console.log(a)
+        const threeArr = ['邓', '紫', '琪', '梁', '梁', '茹', '邓', '晨', '曦']
+        let threeIndex = []
+        // 一维转3维度 [ [['邓'],['紫'],['琪']],  [['梁'], ['梁'], ['茹']],  [['邓'], ['晨'],['曦']]]
+        for(let i = 0; i< threeArr.length; i++) {
+            if(i%3 === 0) {
+                threeIndex.push(i)
+            }
+        }
+        for(let i of index) {
+            const rest
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+
+<!--
+    网格布局：
+    flex布局是轴线布局，可看作是一维布局，grid则将容器划分为行和列，产生单元格，然后指定项目所在单元格，可看成二维布局。grid布局远比flex布局强大
+
+    采用网格布局的区域通常称为“容器”，容器内部采用网格布局的项目叫项目，grid布局只对项目生效。
+    容器内有行和列，行和列交叉部分就是单元格cell。正常情况，m行和n列可以产生n*m个单元格。
+    默认情况下，容器元素都是块元素也可以设置成行内元素：inline-grid
+    设置成网格布局之后，容器子元素的float，display:inline-block,display:table-cell,vertical-align,column-*失效
+    grid-template-rows设置行宽
+    grid-template-columns设置行高
+    网格很多，不想重复写行高，可以使用repeat()函数，
+    grid-template-columns: repeat(3, 33.33%);
+    grid-template-rows: repeat(3, 33.33%); 参数1：重复次数，参数2：宽高
+    若单格大小固定，容器不固定，auto-fill会自动填充，
+    为方便表示比例关系，网格布局提供r关键字，fraction片段，比如两列宽度： 1fr， 2fr表示后者是前者两倍
+    minimax（）函数产生一个长度范围，grid-template-columns: 1fr 1fr minmax(100px, 1fr); minmax(100px, 1fr)表示列宽不小于100px，不大于1fr。
+    grid-row-gap属性设置行与行的间隔（行间距），
+    grid-column-gap属性设置列与列的间隔（列间距）。
+    grid-gap属性是grid-column-gap和grid-row-gap的合并简写形式， grid-gap: 20px 20px;
+    grid-gap省略了第二个值，浏览器认为第二个值等于第一个值。
+    grid-template-areas属性用于定义区域。
+    grid-auto-flow属性决定，默认值是row，即"先行后列"。也可以将它设成column，变成"先列后行"。
+    grid-auto-flow属性除了设置成row和column，还可以设成row dense和column dense。这两个值主要用于，某些项目指定位置以后，剩下的项目怎么自动放置。
+    grid-auto-flow: row dense，表示"先行后列"，并且尽可能紧密填满，尽量不出现空格。column dense，表示"先列后行"，并且尽量填满空格。
+    justify-items属性设置单元格内容的水平位置（左中右），align-items属性设置单元格内容的垂直位置（上中下）。
+    place-items属性是align-items属性和justify-items属性的合并简写形式
+    justify-content属性是整个内容区域在容器里面的水平位置（左中右），align-content属性是整个内容区域的垂直位置（上中下）。
+-->

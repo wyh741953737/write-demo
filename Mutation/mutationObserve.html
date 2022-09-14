@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!---
+    MutationObserve: 监听DOM结构变化的接口，当DOM对象树发生变动会得到通知
+    方法：observe：设置观察目标，target，options
+        disconnect：组长观察者观察任何改变
+        takeRecords：清空记录队列并返回里面的内容
+      options中：childList：true表示观察目标子节点的变化，characterData设置true表示观察目标数据的改变
+      subtree：true表示目标的后代改变都会观察
+  
+      MutationObserver特点：等待所有脚本任务执行完后才会运行，即异步方式，
+                           它把DOM变动记录封装成一个数组进行处理而不是一条条的处理DOM变动
+                           它既可以观察发生在DOM节点的所有变动也可以观察某一类变动
+    DOM发生变动就会触发MutationObserver事件，但是事件是同步触发，也就是DOM发生变动会立即触发相应的事件，《MutationObserver是异步触发
+  -->
+  <script>
+    const targetNode = document.getElementById('root')
+    const config = { attributes: true, childList: true, subtree: true }
+    const callback = function (mutationsList, observer) {
+      for (const mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+          console.log('A child node has been added or removed')
+        } else if (mutation.type === 'attributes') {
+          console.log('The' + mutation.attributeName + 'attributes was modified')
+        }
+      }
+    }
+    const observer = new MutationObserver(callback)
+    observer.observe(targetNode, config)
+    observer.disconnect() // 停止观察
+  </script>
+</body>
+
+</html>
